@@ -39,6 +39,7 @@ function login() {
 }
 
 function ClearLocalStorage() {
+    alert('Logged out');
 	window.localStorage.clear();
 }
 
@@ -68,6 +69,11 @@ function scan() {
 function addMessageToLog(message) {
     var obj = JSON.parse(message);
     var loginType = obj[0].type;
-    if(loginType == 'normal')
+    console.log("tipo: "+loginType);
+    if(loginType == 'normal') {
         app.navigate("#normal-login");
+    }
+    else {
+        app.navigate("#tabstrip-home");
+    }
 }
