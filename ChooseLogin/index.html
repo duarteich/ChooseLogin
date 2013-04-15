@@ -24,8 +24,12 @@
                 <br>
                 <!--<a id="restartButton" data-role="button" data-click="restart">Restart</a> -->
             </div>
-        </div>
-        
+			<div data-role="modalview" id="modalview-notification" style="width: 100%; height: 8em; text-align: center;">
+				<p id='message'>Hello</p>
+				<a data-click="closeModalViewNotification" id="modalview-login-button" type="button" data-role="button">OK</a>
+			</div>
+        </div>            
+                    
         <div data-role="view" id="normal-login" data-title="Login">
 			<label for="userName" style="display: inline-block;">Username:</label>
 			<input type="text" id="userName" value="" />

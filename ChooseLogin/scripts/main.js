@@ -5,7 +5,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 // PhoneGap is ready
 function onDeviceReady() {
-    navigator.splashscreen.hide();
+    //navigator.splashscreen.hide();
     //scan();
 }
 
@@ -14,11 +14,21 @@ function restart() {
     onDeviceReady();
 }
 
+// Uses modalView to show a notification message
+function showMessage(message) {
+	$("#message").html(message);
+    $("#modalview-notification").data("kendoMobileModalView").open();
+}
+            
+function closeModalViewNotification() {
+	$("#modalview-notification").kendoMobileModalView("close");
+}
+
 // Checks if user already logged otherwise launch the minibroser for logging in
 function login() {
-    var myToken = window.localStorage.getItem("FBToken");
+    var myToken = window.localStorage.getItem("loginToken");
     if (myToken != null) {
-         alert('You are already logged');
+        showMessage('You are already logged');
     }
     else{
 		var my_client_id  = "511268432270812",
@@ -37,7 +47,7 @@ function login() {
 
 // Clears all the local storage for logging out
 function clearLocalStorage() {
-    alert('Logged out');
+    showMessage('Logged out');
 	window.localStorage.clear();
 }
 
@@ -46,7 +56,7 @@ function clearLocalStorage() {
 function urlChanged(loc){
        if (/login_success/.test(loc)) { 
            var fbCode = loc.match(/code=(.*)$/)[1]
-           window.localStorage.setItem("FBToken",fbCode);
+           window.localStorage.setItem("loginToken",fbCode);
            window.plugins.childBrowser.close();
            app.navigate("#tabstrip-home");
        }
