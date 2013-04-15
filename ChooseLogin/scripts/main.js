@@ -6,18 +6,15 @@ document.addEventListener("deviceready", onDeviceReady, false);
 // PhoneGap is ready
 function onDeviceReady() {
     navigator.splashscreen.hide();
-    scan();
+    //scan();
 }
 
-function getLocation() {
-    navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
-}
-
+// Restarts the actual App
 function restart() {
     onDeviceReady();
 }
 
-//=======================Say Hello (Page 1) Operations=======================//
+// Checks if user already logged otherwise launch the minibroser for logging in
 function login() {
     var myToken = window.localStorage.getItem("FBToken");
     if (myToken != null) {
@@ -33,22 +30,24 @@ function login() {
         authorize_url += "&display="+my_display;
         authorize_url += "&scope=publish_stream"
         cb = window.plugins.childBrowser
-        cb.onLocationChange = function(loc){ facebookLocChanged(loc); };
+        cb.onLocationChange = function(loc){ urlChanged(loc); };
         if(cb != null) {  cb.showWebPage(authorize_url); }
 		}  
 }
 
-function ClearLocalStorage() {
+// Clears all the local storage for logging out
+function clearLocalStorage() {
     alert('Logged out');
 	window.localStorage.clear();
 }
 
-function facebookLocChanged(loc){
-       /* Here we check if the url is the login success */
+
+// Processes the returned code to determine if signing in was successfull
+function urlChanged(loc){
        if (/login_success/.test(loc)) { 
            var fbCode = loc.match(/code=(.*)$/)[1]
            window.localStorage.setItem("FBToken",fbCode);
-            window.plugins.childBrowser.close();
+           window.plugins.childBrowser.close();
            app.navigate("#tabstrip-home");
        }
 }
